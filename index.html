@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIP Calculator India &amp; Lumpsum Planner for Mutual Funds</title>
+    <meta name="description" content="Free SIP calculator and Lumpsum calculator for Indian mutual funds. Plan your investments, estimate future wealth, and compare returns for SBI, HDFC, and other funds.">
+    <meta name="keywords" content="sip calculator, lumpsum calculator, sip calculator india, mutual fund calculator, step up sip calculator, sbi sip calculator, hdfc sip calculator, groww sip calculator, investment planner, wealth creation, lumpsum investment calculator, one time investment calculator, sbi lumpsum calculator, lumpsum vs sip, future value of lumpsum, sip return calculator, power of compounding, rupee cost averaging, lumpsum return calculator, financial planning tools india">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .sip-calculator {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 1.5rem;
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .text-groww-green {
+            color: #00d984;
+        }
+
+        /* NEW FEATURE: Toggle Button Styles */
+        .toggle-button {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px; /* Pill shape */
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .toggle-button.active {
+            background-color: #00d984;
+            color: #1f2937;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-button.passive {
+            background-color: #e5e7eb;
+            color: #6b7280;
+        }
+        /* END NEW FEATURE */
+
+        .chart-container {
+            position: relative;
+            height: 250px;
+            width: 250px;
+        }
+
+        .total-value-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        /* Custom thumb and track styling for cross-browser consistency */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #00d984;
+            cursor: pointer;
+            margin-top: -8px; 
+        }
+
+        input[type=range]::-moz-range-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #00d984;
+            cursor: pointer;
+        }
+
+        input[type=range]::-ms-thumb {
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #00d984;
+            cursor: pointer;
+        }
+        /* Custom style for the guidance box border */
+        .guidance-box-border {
+            border-left: 4px solid #00d984;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="sip-calculator">
+    <div class="container mx-auto">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2" id="mainTitle">SIP Calculator: Plan Your Investments and Future Wealth</h1>
+            <p id="mainDescription" class="text-base text-gray-800 leading-relaxed max-w-2xl mx-auto"></p>
+        </header>
+        
+        <div class="flex justify-center mb-8">
+            <div class="inline-flex p-1 bg-gray-200 rounded-full shadow-inner">
+                <button id="sipButton" class="toggle-button active" onclick="setMode('sip')">
+                    SIP
+                </button>
+                <button id="lumpsumButton" class="toggle-button passive ml-2" onclick="setMode('lumpsum')">
+                    Lumpsum
+                </button>
+            </div>
+        </div>
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div class="p-6 bg-gray-50 rounded-lg shadow-sm">
+                <div class="mb-6">
+                    <label for="monthlyInvestment" class="block text-gray-800 font-medium mb-1" id="investmentLabel">Monthly Investment (₹)</label>
+                    <input type="range" id="monthlyInvestmentSlider" min="500" max="100000" step="500" value="10000"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="number" id="monthlyInvestment" value="10000" min="500" max="100000"
+                           class="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-groww-green text-right font-semibold text-gray-900">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="expectedReturn" class="block text-gray-800 font-medium mb-1">Expected Return Rate (% p.a.)</label>
+                    <input type="range" id="expectedReturnSlider" min="1" max="30" step="0.5" value="12"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="number" id="expectedReturn" value="12" min="1" max="30" step="0.5"
+                           class="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-groww-green text-right font-semibold text-gray-900">
+                </div>
+
+                <div class="mb-6">
+                    <label for="timePeriod" class="block text-gray-800 font-medium mb-1">Time Period (Years)</label>
+                    <input type="range" id="timePeriodSlider" min="1" max="40" step="1" value="10"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="number" id="timePeriod" value="10" min="1" max="40" step="1"
+                           class="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-groww-green text-right font-semibold text-gray-900">
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center p-6 bg-gray-50 rounded-lg shadow-sm">
+                <div class="w-full flex justify-around mb-6 text-center">
+                    <div>
+                        <p class="text-sm font-medium text-gray-800" id="investedLabel">Invested Amount</p>
+                        <p id="investedAmount" class="text-lg font-bold text-groww-green">₹0</p>
+                    </div>
+                    <div>
+                        <p class="text-sm font-medium text-gray-800">Est. Returns</p>
+                        <p id="estimatedReturns" class="text-lg font-bold text-groww-green">₹0</p>
+                    </div>
+                </div>
+
+                <div class="relative chart-container mb-6">
+                    <canvas id="sipChart"></canvas>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+                        <p class="text-sm font-medium text-gray-800 mb-1">Total Value</p>
+                        <p id="totalValue" class="text-xl font-bold text-groww-green">₹0</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center space-x-4 w-full mb-6">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-4 h-4 rounded-full bg-gray-200"></div>
+                        <span class="text-gray-800" id="investedLegend">Invested Amount</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-4 h-4 rounded-full bg-groww-green"></div>
+                        <span class="text-gray-800">Est. Returns</span>
+                    </div>
+                </div>
+
+                <div id="guidanceMessage" class="w-full p-3 bg-gray-100 rounded-md guidance-box-border">
+                    </div>
+                </div>
+        </main>
+        
+        <section class="mt-16 pt-8 border-t border-gray-200" id="seoContent">
+            </section>
+        </div>
+</div>
+
+<script>
+    // ELEMENT REFERENCES
+    const monthlyInvestmentInput = document.getElementById('monthlyInvestment');
+    const monthlyInvestmentSlider = document.getElementById('monthlyInvestmentSlider');
+    const expectedReturnInput = document.getElementById('expectedReturn');
+    const expectedReturnSlider = document.getElementById('expectedReturnSlider');
+    const timePeriodInput = document.getElementById('timePeriod');
+    const timePeriodSlider = document.getElementById('timePeriodSlider');
+
+    const investedAmountEl = document.getElementById('investedAmount');
+    const estimatedReturnsEl = document.getElementById('estimatedReturns');
+    const totalValueEl = document.getElementById('totalValue');
+    const guidanceMessageEl = document.getElementById('guidanceMessage');
+    const investmentLabel = document.getElementById('investmentLabel');
+    const investedLabel = document.getElementById('investedLabel');
+    const investedLegend = document.getElementById('investedLegend');
+    const seoContentEl = document.getElementById('seoContent');
+    const mainTitle = document.getElementById('mainTitle');
+    const mainDescription = document.getElementById('mainDescription');
+    
+    // Toggle Buttons
+    const sipButton = document.getElementById('sipButton');
+    const lumpsumButton = document.getElementById('lumpsumButton');
+
+    let sipChart;
+    let currentMode = 'sip'; // Default mode is SIP
+
+    // --- Lumpsum Content Variables (Asterisk removed) ---
+    const LUMPSUM_SEO_CONTENT = `
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-4">Understanding the Lumpsum Calculator for Indian Investors</h2>
+        
+        <p class="text-gray-700 mb-4 leading-relaxed">
+            A <strong>Lumpsum Investment Calculator</strong> is a financial tool designed to project the <strong>future value of a lumpsum</strong> investment. As a <strong>one-time investment calculator</strong>, it shows how a single, upfront amount can grow over time through the power of compounding. This makes it an essential planner for anyone in <strong>India</strong> looking to invest a significant amount from a bonus, inheritance, or sale of an asset into <strong>mutual funds</strong>. It helps answer the critical "<strong>lumpsum vs sip</strong>" question by showing the potential of immediate capital deployment.
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">The Lumpsum Calculation Formula Used</h3>
+        <p class="text-gray-700 mb-3">
+            Our calculator uses the standard <strong>Future Value of a Single Sum</strong> formula to calculate the maturity amount. This is the universal method for projecting the growth of a single principal amount over time with compound interest.
+        </p>
+        
+        <div class="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4 text-center">
+            <code class="text-lg font-mono text-gray-800 inline-block">
+                Future Value = P × (1 + r)ⁿ
+            </code>
+        </div>
+
+        <p class="text-sm text-gray-600">
+            Where:
+            <ul class="list-disc list-inside ml-4 text-sm text-gray-600">
+                <li><strong>P</strong> = Principal Amount (Your one-time lumpsum investment).</li>
+                <li><strong>r</strong> = Annual Rate of Return (Expected return rate / 100).</li>
+                <li><strong>n</strong> = Number of Years (The investment time period).</li>
+            </ul>
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">How to Use This Lumpsum Calculator for Financial Planning</h3>
+        <p class="text-gray-700 leading-relaxed">
+            For investors targeting <strong>long-term wealth creation</strong>, this calculator is invaluable. It helps you visualize the growth potential of your capital. Whether you are looking for an <strong>SBI lumpsum calculator</strong> or planning to invest in an <strong>HDFC Mutual Fund</strong>, this tool provides a clear projection. Use it as your <strong>one-time investment planner</strong> to see if your capital, combined with a realistic <strong>expected return rate</strong>, can meet your financial goals. You can also compare the results with our <strong>SIP calculator</strong> to decide which investment strategy suits you best.
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">Frequently Asked Questions (FAQ) about Lumpsum Investments</h3>
+        <div class="space-y-4 text-gray-700">
+            <div>
+                <h4 class="font-semibold">When is a lumpsum investment a good idea?</h4>
+                <p class="text-sm">Lumpsum investing is ideal when you receive a large, one-time inflow of cash, such as a work bonus, inheritance, or proceeds from a property sale. Investing it all at once gives your money more time to compound, which can lead to higher returns, especially in a rising market.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold">What is the minimum amount for a lumpsum investment?</h4>
+                <p class="text-sm">The minimum amount varies by mutual fund house (AMC), but it is typically around ₹5,000 for most equity funds. Some funds may have a lower or higher minimum investment requirement.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold">Is lumpsum better than SIP?</h4>
+                <p class="text-sm">Neither is definitively "better"; they suit different situations. Lumpsum can generate higher returns if the market performs well after you invest. SIPs, on the other hand, benefit from rupee cost averaging, which reduces risk by spreading investments over time. The choice depends on your financial situation and risk appetite.</p>
+            </div>
+        </div>
+    `;
+
+    const SIP_SEO_CONTENT = `
+        <h2 class="text-2xl font-extrabold text-gray-900 mb-4">The Ultimate SIP Calculator for Indian Mutual Fund Investors</h2>
+        
+        <p class="text-gray-700 mb-4 leading-relaxed">
+            A <strong>SIP Calculator</strong> is an essential online tool for anyone investing in <strong>mutual funds in India</strong>. It estimates the <strong>future value</strong> of your monthly investments in a <strong>Systematic Investment Plan (SIP)</strong>, showing the powerful effect of <strong>compounding</strong>. By entering your monthly investment, expected return, and time period, this <strong>mutual fund SIP calculator</strong> projects your total wealth, helping you plan for financial goals. Whether you use it as an <strong>SBI SIP calculator</strong>, <strong>HDFC SIP calculator</strong>, or for any other fund, the principle remains the same: disciplined investing leads to long-term wealth creation.
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">The SIP Calculation Formula Used</h3>
+        <p class="text-gray-700 mb-3">
+            Our calculator uses the standard formula for the <strong>Future Value of an Annuity</strong>, which is ideal for calculating the maturity amount of your monthly SIP investments.
+        </p>
+        
+        <div class="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4 text-center">
+            <code class="text-lg font-mono text-gray-800 inline-block">M = P × [((1 + i)ⁿ - 1) / i] × (1 + i)</code>
+        </div>
+
+        <p class="text-sm text-gray-600">
+            Where:
+            <ul class="list-disc list-inside ml-4 text-sm text-gray-600">
+                <li><strong>M</strong> = Maturity Amount (The total estimated corpus).</li>
+                <li><strong>P</strong> = Monthly Investment Amount.</li>
+                <li><strong>i</strong> = Monthly Rate of Return (Annual Rate / 12 / 100).</li>
+                <li><strong>n</strong> = Number of Months (Time Period in Years × 12).</li>
+            </ul>
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">Beyond the Basic SIP: Step-Up SIP and Long-Term Strategy</h3>
+        <p class="text-gray-700 leading-relaxed">
+            While this tool functions as a standard <strong>SIP calculator</strong>, many investors use a <strong>step-up SIP</strong> strategy, where they increase their monthly investment annually. Although this calculator doesn't compute step-ups automatically, you can use it to project future values with increased monthly amounts. This helps in planning for aggressive growth. Remember, consistent investing benefits from <strong>rupee cost averaging</strong>. Use this tool as your go-to <strong>online SIP planner</strong> to set and track your financial targets, whether you're a customer of <strong>Groww</strong>, Zerodha, or any other platform.
+        </p>
+
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">Frequently Asked Questions (FAQ) about SIPs</h3>
+        <div class="space-y-4 text-gray-700">
+            <div>
+                <h4 class="font-semibold">What is the main benefit of using a SIP?</h4>
+                <p class="text-sm">The two main benefits are <strong>disciplined investing</strong> and <strong>rupee cost averaging</strong>. SIPs automate your savings, making it a habit. Rupee cost averaging means you buy more units when the market is low and fewer when it's high, averaging out your purchase cost over time and reducing risk.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold">How do I choose an expected rate of return?</h4>
+                <p class="text-sm">A realistic rate is crucial. For long-term equity mutual funds in India, a historical average of 12% is often used as a practical benchmark. High-risk small-cap funds might aim for 15%+, while conservative hybrid funds might be closer to 8-10%. It's better to be conservative with your estimate.</p>
+            </div>
+            <div>
+                <h4 class="font-semibold">Can I stop my SIP anytime?</h4>
+                <p class="text-sm">Yes, most open-ended mutual fund schemes allow you to stop or pause your SIP at any time without a penalty. You can also redeem your invested amount, though exit loads and capital gains tax may apply depending on the fund and holding period.</p>
+            </div>
+        </div>
+    `;
+    // --- End of Lumpsum Content Variables ---
+
+
+    const createChart = (investedAmount, estimatedReturns) => {
+        const ctx = document.getElementById('sipChart').getContext('2d');
+        if (sipChart) {
+            sipChart.destroy();
+        }
+        sipChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Invested Amount', 'Est. Returns'],
+                datasets: [{
+                    data: [investedAmount, estimatedReturns],
+                    backgroundColor: ['#e5e7eb', '#00d984'],
+                    hoverBackgroundColor: ['#d1d5db', '#00c17a'],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                cutout: '80%',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        enabled: false,
+                    },
+                    legend: {
+                        display: false,
+                    },
+                },
+                elements: {
+                    arc: {
+                        borderRadius: 10,
+                    }
+                }
+            }
+        });
+    };
+
+    const formatCurrency = (amount) => {
+        return `₹${new Intl.NumberFormat('en-IN').format(Math.round(amount))}`;
+    };
+
+    const displayGuidance = (expectedReturn) => {
+        let guidanceMessage = "";
+        let colorClass = "text-gray-700";
+        let title = "Guidance on Expected Return:";
+        let investmentType = currentMode === 'sip' ? 'equity SIPs' : 'lumpsum investments';
+
+        if (expectedReturn >= 15.0) {
+            title = "High Expectation 🚀";
+            guidanceMessage = `Returns of 15% or more are typical for <strong>high-performing Mid/Small-Cap funds</strong> or during strong bull markets. This requires taking <strong>higher risk</strong> and careful fund selection.`;
+            colorClass = "text-red-600 font-semibold";
+        } else if (expectedReturn >= 12.0) {
+            title = "Strong Performance ⭐";
+            guidanceMessage = `Returns in this range are <strong>achievable</strong> with consistent ${investmentType} in <strong>well-chosen, diversified equity funds</strong> over a long period (10+ years).`;
+            colorClass = "text-groww-green font-semibold";
+        } else if (expectedReturn >= 8.0) {
+            title = "Solid Expectation ✅";
+            guidanceMessage = `Returns in this range align with <strong>historical Nifty/Sensex index averages</strong> or conservative hybrid fund performance. This is a reliable long-term expectation.`;
+            colorClass = "text-green-700";
+        } else {
+            title = "Conservative Target 📉";
+            guidanceMessage = `This return is typical for <strong>debt/fixed-income</strong> products. Pure equity ${investmentType} usually aim for higher long-term returns (e.g., >10%).`;
+            colorClass = "text-gray-500";
+        }
+
+        const gapWarning = "Disclaimer: An average investor's realized return is often lower than the fund's published performance due to market timing mistakes (buying high, selling low).";
+
+        guidanceMessageEl.innerHTML = `
+            <p class="font-bold text-sm mb-1 ${colorClass}">${title}</p>
+            <p class="text-sm mb-2 text-gray-800">${guidanceMessage}</p>
+            <p class="text-xs text-gray-500">${gapWarning}</p>
+        `;
+    };
+
+    // Central Calculation Function
+    const calculateSIP = () => {
+        const monthlyInvestment = parseFloat(monthlyInvestmentInput.value);
+        const expectedReturn = parseFloat(expectedReturnInput.value) / 100;
+        const timePeriod = parseFloat(timePeriodInput.value);
+        const expectedReturnPercent = parseFloat(expectedReturnInput.value); 
+
+        if (isNaN(monthlyInvestment) || isNaN(expectedReturn) || isNaN(timePeriod) || monthlyInvestment <= 0 || timePeriod <= 0) {
+            investedAmountEl.textContent = formatCurrency(0);
+            estimatedReturnsEl.textContent = formatCurrency(0);
+            totalValueEl.textContent = formatCurrency(0);
+            createChart(0, 0);
+            displayGuidance(expectedReturnPercent);
+            return;
+        }
+        
+        let futureValue, investedAmount, estimatedReturns;
+
+        if (currentMode === 'sip') {
+            const monthlyReturnRate = expectedReturn / 12;
+            const totalMonths = timePeriod * 12;
+
+            // Future Value of Annuity Due Formula
+            futureValue = monthlyInvestment * (Math.pow(1 + monthlyReturnRate, totalMonths) - 1) / monthlyReturnRate * (1 + monthlyReturnRate);
+            investedAmount = monthlyInvestment * totalMonths;
+            estimatedReturns = futureValue - investedAmount;
+
+        } else if (currentMode === 'lumpsum') {
+            // Future Value of a Single Sum Formula (Compounded Annually)
+            investedAmount = monthlyInvestment; // In Lumpsum mode, this is the one-time investment
+            futureValue = investedAmount * Math.pow(1 + expectedReturn, timePeriod);
+            estimatedReturns = futureValue - investedAmount;
+        }
+
+        investedAmountEl.textContent = formatCurrency(investedAmount);
+        estimatedReturnsEl.textContent = formatCurrency(estimatedReturns);
+        totalValueEl.textContent = formatCurrency(futureValue);
+
+        createChart(investedAmount, estimatedReturns);
+        displayGuidance(expectedReturnPercent);
+    };
+
+    // Mode Switching Logic
+    const setMode = (mode) => {
+        currentMode = mode;
+
+        if (mode === 'sip') {
+            // Update UI for SIP
+            sipButton.classList.remove('passive');
+            sipButton.classList.add('active');
+            lumpsumButton.classList.remove('active');
+            lumpsumButton.classList.add('passive');
+
+            investmentLabel.textContent = 'Monthly Investment (₹)';
+            investedLabel.textContent = 'Total Invested';
+            investedLegend.textContent = 'Invested Amount';
+            
+            // Set SIP-friendly input ranges/defaults
+            monthlyInvestmentSlider.min = 500;
+            monthlyInvestmentSlider.max = 100000;
+            monthlyInvestmentSlider.step = 500;
+            if (monthlyInvestmentInput.value > 100000 || monthlyInvestmentInput.value < 500) {
+                monthlyInvestmentInput.value = 10000; // Reset to a sensible default SIP value
+            }
+            monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
+            
+            // Update SEO Content
+            seoContentEl.innerHTML = SIP_SEO_CONTENT;
+            mainTitle.textContent = "SIP Calculator: Plan Your Investments and Future Wealth";
+            mainDescription.innerHTML = `Calculate the potential returns of your <strong>Systematic Investment Plan (SIP)</strong> in India. Use our <strong>mutual fund sip calculator</strong> to estimate wealth growth and make smarter investment decisions.`;
+
+
+        } else if (mode === 'lumpsum') {
+            // Update UI for Lumpsum
+            lumpsumButton.classList.remove('passive');
+            lumpsumButton.classList.add('active');
+            sipButton.classList.remove('active');
+            sipButton.classList.add('passive');
+
+            investmentLabel.textContent = 'One-Time Lumpsum Investment (₹)';
+            investedLabel.textContent = 'Initial Investment';
+            investedLegend.textContent = 'Initial Investment';
+
+            // Set Lumpsum-friendly input ranges/defaults
+            monthlyInvestmentSlider.min = 5000;
+            monthlyInvestmentSlider.max = 500000;
+            monthlyInvestmentSlider.step = 5000;
+            if (monthlyInvestmentInput.value < 5000 || monthlyInvestmentInput.value > 500000) {
+                monthlyInvestmentInput.value = 50000; // Reset to a sensible default Lumpsum value
+            }
+            monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
+
+            // Update SEO Content
+            seoContentEl.innerHTML = LUMPSUM_SEO_CONTENT;
+            mainTitle.textContent = "Lumpsum Calculator: Estimate Your One-Time Investment Returns";
+            mainDescription.innerHTML = `Estimate the future value of a <strong>one-time lumpsum investment</strong> in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in <strong>India</strong>.`;
+        }
+
+        // Recalculate immediately with new mode
+        calculateSIP();
+    };
+
+    // --- EVENT LISTENERS (All call the same calculate function) ---
+
+    monthlyInvestmentInput.addEventListener('input', () => {
+        monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
+        calculateSIP();
+    });
+
+    monthlyInvestmentSlider.addEventListener('input', () => {
+        monthlyInvestmentInput.value = monthlyInvestmentSlider.value;
+        calculateSIP();
+    });
+
+    expectedReturnInput.addEventListener('input', () => {
+        expectedReturnSlider.value = expectedReturnInput.value;
+        calculateSIP();
+    });
+
+    expectedReturnSlider.addEventListener('input', () => {
+        expectedReturnInput.value = expectedReturnSlider.value;
+        calculateSIP();
+    });
+
+    timePeriodInput.addEventListener('input', () => {
+        timePeriodSlider.value = timePeriodInput.value;
+        calculateSIP();
+    });
+
+    timePeriodSlider.addEventListener('input', () => {
+        timePeriodInput.value = timePeriodSlider.value;
+        calculateSIP();
+    });
+
+    // Initial setup
+    window.onload = () => {
+        // Force the default mode (SIP) to set initial state and content
+        setMode('sip');
+    };
+
+</script>
+
+</body>
+</html>
