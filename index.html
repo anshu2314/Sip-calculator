@@ -396,7 +396,7 @@
     };
 
     const formatCurrency = (amount) => {
-        return ₹${new Intl.NumberFormat('en-IN').format(Math.round(amount))};
+        return `₹${new Intl.NumberFormat('en-IN').format(Math.round(amount))}`;
     };
 
     const displayGuidance = (expectedReturn) => {
@@ -413,19 +413,19 @@
 
         if (expectedReturn >= 15.0) {
             title = "High Expectation 🚀";
-            guidanceMessage = Returns of 15% or more are typical for <strong>high-performing Mid/Small-Cap funds</strong> or during strong bull markets. This requires taking <strong>higher risk</strong> and careful fund selection.;
+            guidanceMessage = `Returns of 15% or more are typical for <strong>high-performing Mid/Small-Cap funds</strong> or during strong bull markets. This requires taking <strong>higher risk</strong> and careful fund selection.`;
             colorClass = "text-red-600 font-semibold";
         } else if (expectedReturn >= 12.0) {
             title = "Strong Performance ⭐";
-            guidanceMessage = Returns in this range are <strong>achievable</strong> with consistent ${investmentType} in <strong>well-chosen, diversified equity funds</strong> over a long period (10+ years).;
+            guidanceMessage = `Returns in this range are <strong>achievable</strong> with consistent ${investmentType} in <strong>well-chosen, diversified equity funds</strong> over a long period (10+ years).`;
             colorClass = "text-primary-green font-semibold";
         } else if (expectedReturn >= 8.0) {
             title = "Solid Expectation ✅";
-            guidanceMessage = Returns in this range align with <strong>historical Nifty/Sensex index averages</strong> or conservative hybrid fund performance. This is a reliable long-term expectation.;
+            guidanceMessage = `Returns in this range align with <strong>historical Nifty/Sensex index averages</strong> or conservative hybrid fund performance. This is a reliable long-term expectation.`;
             colorClass = "text-green-700";
         } else {
             title = "Conservative Target 📉";
-            guidanceMessage = This return is typical for <strong>debt/fixed-income</strong> products. Pure equity ${investmentType} usually aim for higher long-term returns (e.g., >10%).;
+            guidanceMessage = `This return is typical for <strong>debt/fixed-income</strong> products. Pure equity ${investmentType} usually aim for higher long-term returns (e.g., >10%).`;
             colorClass = "text-gray-500";
         }
 
@@ -538,15 +538,15 @@
         lumpsumButton.classList.add('passive');
 
         stepUpRateGroup.classList.add('hidden');
-        
+
         // Default SIP ranges
         monthlyInvestmentSlider.min = 500;
         monthlyInvestmentSlider.max = 100000;
         monthlyInvestmentSlider.step = 500;
-        
+
         // Activate the selected button
-        document.getElementById(${mode}Button).classList.remove('passive');
-        document.getElementById(${mode}Button).classList.add('active');
+        document.getElementById(`${mode}Button`).classList.remove('passive');
+        document.getElementById(`${mode}Button`).classList.add('active');
 
 
         if (mode === 'sip' || mode === 'stepUpSip') {
@@ -554,7 +554,7 @@
             investmentLabel.textContent = 'Monthly Investment (₹)';
             investedLabel.textContent = 'Total Invested';
             investedLegend.textContent = 'Invested Amount';
-            
+
             // Set a sensible default SIP value if the current value is out of bounds
             if (monthlyInvestmentInput.value > 100000 || monthlyInvestmentInput.value < 500) {
                 monthlyInvestmentInput.value = 10000;
@@ -564,13 +564,13 @@
                 // Step-Up SIP specific handling
                 stepUpRateGroup.classList.remove('hidden'); // Show Step-Up Rate
                 seoContentEl.innerHTML = STEP_UP_SIP_SEO_CONTENT;
-                mainTitle.textContent = "Step-Up SIP Calculator: Maximize Wealth with Annual Investment Increases";
-                mainDescription.innerHTML = Calculate your potential corpus using a **Step-Up SIP** (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.;
+                mainTitle.textContent = 'Step-Up SIP Calculator: Maximize Wealth with Annual Investment Increases';
+                mainDescription.innerHTML = `Calculate your potential corpus using a **Step-Up SIP** (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.`;
             } else {
                 // Standard SIP handling (renamed from Standard SIP to SIP)
                 seoContentEl.innerHTML = SIP_SEO_CONTENT;
-                mainTitle.textContent = "SIP Calculator: Plan Your Investments and Future Wealth";
-                mainDescription.innerHTML = Calculate the potential returns of your **Systematic Investment Plan (SIP)** in India. Use our **mutual fund sip calculator** to estimate wealth growth and make smarter investment decisions.;
+                mainTitle.textContent = 'SIP Calculator: Plan Your Investments and Future Wealth';
+                mainDescription.innerHTML = `Calculate the potential returns of your **Systematic Investment Plan (SIP)** in India. Use our **mutual fund sip calculator** to estimate wealth growth and make smarter investment decisions.`;
             }
 
         } else if (mode === 'lumpsum') {
@@ -589,10 +589,10 @@
 
             // Update SEO Content
             seoContentEl.innerHTML = LUMPSUM_SEO_CONTENT;
-            mainTitle.textContent = "Lumpsum Calculator: Estimate Your One-Time Investment Returns";
-            mainDescription.innerHTML = Estimate the future value of a **one-time lumpsum investment** in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in **India**.;
+            mainTitle.textContent = 'Lumpsum Calculator: Estimate Your One-Time Investment Returns';
+            mainDescription.innerHTML = `Estimate the future value of a **one-time lumpsum investment** in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in **India**.`;
         }
-        
+
         // --- 4. Synchronize and Calculate ---
         monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
         calculateInvestment();
