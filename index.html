@@ -193,6 +193,10 @@
         .guidance-box-border {
             border-left: 4px solid var(--primary-green);
         }
+        /* Restore bold styling for <strong> tags, which is reset by Tailwind's preflight */
+        strong, b {
+            font-weight: 700; /* Or 'bolder' */
+        }
         /* --- END CORE THEME STYLES --- */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -415,7 +419,7 @@
                 </div>
             </div>
             
-            <p class="text-xs text-gray-500 mt-6 pt-4 border-t border-gray-100">Disclaimer: This is for guidance only, based on historical averages and assumptions. Consult a financial advisor before investing. **Equity** is split among Large, Mid, and Small Cap based on risk profile.</p>
+            <p class="text-xs text-gray-500 mt-6 pt-4 border-t border-gray-100">Disclaimer: This is for guidance only, based on historical averages and assumptions. Consult a financial advisor before investing. <strong>Equity</strong> is split among Large, Mid, and Small Cap based on risk profile.</p>
         </div>
     </div>
 </div>
@@ -519,16 +523,16 @@
         <h2 class="text-2xl font-extrabold text-gray-900 mb-4">Calculate the Potential of a Step-Up SIP (Top-Up SIP)</h2>
         
         <p class="text-gray-700 mb-4 leading-relaxed">
-            A **Step-Up SIP Calculator** is a highly effective tool for long-term investors in India who wish to increase their savings annually, aligning with their income growth. Also known as a **Top-Up SIP**, this strategy significantly boosts your final corpus through higher contributions and the **power of compounding** on an increasing base. Use this calculator to model how a consistent annual increase in your monthly SIP can lead to dramatically larger wealth creation over the long investment horizon.
+            A <strong>Step-Up SIP Calculator</strong> is a highly effective tool for long-term investors in India who wish to increase their savings annually, aligning with their income growth. Also known as a <strong>Top-Up SIP</strong>, this strategy significantly boosts your final corpus through higher contributions and the <strong>power of compounding</strong> on an increasing base. Use this calculator to model how a consistent annual increase in your monthly SIP can lead to dramatically larger wealth creation over the long investment horizon.
         </p>
 
-        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">How the Step-Up SIP is Calculated (Iterative Method)</h3>
+        <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">How the Step-Up SIP is Calculated (<strong>Iterative Method</strong>)</h3>
         <p class="text-gray-700 mb-3">
             Since the investment amount changes every 12 months, there is no simple closed-form formula. The Step-Up SIP maturity amount is calculated by determining the future value of *each annual contribution block* and summing them up.
         </p>
         
         <div class="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4">
-            <h4 class="font-semibold text-gray-800 mb-2">Calculation Logic:</h4>
+            <h4 class="font-semibold text-gray-800 mb-2"><strong>Calculation Logic:</strong></h4>
             <code class="text-sm font-mono text-gray-700 block whitespace-pre-wrap">
 1.  **Iterative Process:** Repeat for each year (y) of the investment period.
 2.  **Annual SIP Calculation:** Use the standard SIP formula to find the Future Value of the 12 investments made in year (y) at the prevailing investment amount (P_y).
@@ -538,16 +542,16 @@
 4.  **Step-Up:** Increase the SIP amount for the next year (P_y+1):
     * P_y+1 = P_y &times; (1 + Step-Up Rate)
 
-**Invested Amount** is simply the sum of all monthly payments made (P_y &times; 12) across all years.
+<strong>Invested Amount</strong> is simply the sum of all monthly payments made (P_y &times; 12) across all years.
             </code>
         </div>
         <p class="text-sm text-gray-600 mt-3">
-            *Where **i** is the monthly rate of return (Annual Rate / 12 / 100). This process accounts for compounding accurately on both the annual increase and the remaining investment duration.
+            *Where <strong>i</strong> is the monthly rate of return (Annual Rate / 12 / 100). This process accounts for compounding accurately on both the annual increase and the remaining investment duration.
         </p>
 
         <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">Why is a Step-Up SIP Powerful for Wealth Creation?</h3>
         <p class="text-gray-700 leading-relaxed">
-            Unlike a fixed SIP, the **Step-Up SIP** allows your investments to grow dynamically. As your salary or income rises, so does your investment amount, which is crucial for **long-term financial planning** and hitting ambitious goals like retirement or a child's education. Even a modest 5% annual step-up rate can result in a corpus that is substantially larger than a fixed SIP over 15-20 years.
+            Unlike a fixed SIP, the <strong>Step-Up SIP</strong> allows your investments to grow dynamically. As your salary or income rises, so does your investment amount, which is crucial for <strong>long-term financial planning</strong> and hitting ambitious goals like retirement or a child's education. Even a modest 5% annual step-up rate can result in a corpus that is substantially larger than a fixed SIP over 15-20 years.
         </p>
     `;
 
@@ -856,11 +860,11 @@
                 stepUpRateGroup.classList.remove('hidden');
                 seoContentEl.innerHTML = STEP_UP_SIP_SEO_CONTENT;
                 mainTitle.textContent = "Step-Up SIP Calculator: Maximize Wealth with Annual Investment Increases";
-                mainDescription.innerHTML = `Calculate your potential corpus using a **Step-Up SIP** (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.`;
+                mainDescription.innerHTML = `Calculate your potential corpus using a <strong>Step-Up SIP</strong> (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.`;
             } else {
                 seoContentEl.innerHTML = SIP_SEO_CONTENT;
                 mainTitle.textContent = "SIP Calculator: Plan Your Investments and Future Wealth";
-                mainDescription.innerHTML = `Calculate the potential returns of your **Systematic Investment Plan (SIP)** in India. Use our **mutual fund sip calculator** to estimate wealth growth and make smarter investment decisions.`;
+                mainDescription.innerHTML = `Calculate the potential returns of your <strong>Systematic Investment Plan (SIP)</strong> in India. Use our <strong>mutual fund sip calculator</strong> to estimate wealth growth and make smarter investment decisions.`;
             }
 
         } else if (mode === 'lumpsum') {
@@ -880,7 +884,7 @@
             // Update SEO Content
             seoContentEl.innerHTML = LUMPSUM_SEO_CONTENT;
             mainTitle.textContent = "Lumpsum Calculator: Estimate Your One-Time Investment Returns";
-            mainDescription.innerHTML = `Estimate the future value of a **one-time lumpsum investment** in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in **India**.`;
+            mainDescription.innerHTML = `Estimate the future value of a <strong>one-time lumpsum investment</strong> in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in <strong>India</strong>.`;
         }
         
         // --- 4. Synchronize and Calculate ---
@@ -1039,25 +1043,28 @@
             rationale = "Your goal is less than 3 years away. Equity market volatility is too high for this horizon. We recommend prioritizing the safety and liquidity of your capital with low-risk assets.";
         } else {
             // Medium/Long-term: Use risk capacity
-            allocationProfile = ASSET_ALLOCATIONS[riskCapacity];
+            // Create a copy to avoid modifying the original constant
+            allocationProfile = { ...ASSET_ALLOCATIONS[riskCapacity] };
             const equitySplit = EQUITY_SPLITS[riskCapacity];
             
             if (timePeriod >= 3 && timePeriod <= 7) {
-                title = riskCapacity === 'low' ? "Medium-Term Goal: Conservative Hybrid Plan" : "Medium-Term Goal: Balanced Growth Plan";
-                rationale = "With 3-7 years, a hybrid strategy is optimal, balancing growth from equity with stability from debt to manage short-term market fluctuations.";
+                title = riskCapacity === 'high' ? "Medium-Term Goal: Balanced Growth Plan" : "Medium-Term Goal: Conservative Hybrid Plan";
+                rationale = `With a ${timePeriod}-year horizon, a hybrid strategy is optimal. This plan balances growth from equity with stability from debt to manage market fluctuations effectively.`;
             } else { // timePeriod > 7 years
                 title = riskCapacity === 'high' ? "Long-Term Goal: Aggressive Equity Growth 🚀" : "Long-Term Goal: Core Wealth Creation Plan";
                 rationale = "Your long time period allows you to harness the full power of equity compounding. A higher equity allocation is recommended to maximize returns over the long run.";
             }
 
-            // Sub-allocate Equity into Large, Mid, and Small Cap for the chart/table
-            const totalEquity = allocationProfile['Equity'];
-            
-            // Remove 'Equity' key and add sub-categories
-            delete allocationProfile['Equity'];
-            allocationProfile['Large Cap Equity'] = totalEquity * equitySplit['Large Cap Equity'] / 100;
-            allocationProfile['Mid Cap Equity'] = totalEquity * equitySplit['Mid Cap Equity'] / 100;
-            allocationProfile['Small Cap Equity'] = totalEquity * equitySplit['Small Cap Equity'] / 100;
+            // Sub-allocate Equity into Large, Mid, and Small Cap for all relevant risk profiles
+            if (allocationProfile['Equity'] > 0 && equitySplit) {
+                const totalEquity = allocationProfile['Equity'];
+                
+                // Remove 'Equity' key and add sub-categories
+                delete allocationProfile['Equity'];
+                allocationProfile['Large Cap Equity'] = totalEquity * (equitySplit['Large Cap Equity'] / 100);
+                allocationProfile['Mid Cap Equity'] = totalEquity * (equitySplit['Mid Cap Equity'] / 100);
+                allocationProfile['Small Cap Equity'] = totalEquity * (equitySplit['Small Cap Equity'] / 100);
+            }
         }
         
         // 3. Calculate Weighted Average Return and prepare data for display
