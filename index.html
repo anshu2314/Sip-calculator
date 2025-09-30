@@ -5,56 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIP Calculator India &amp; Lumpsum Planner for Mutual Funds</title>
     <meta name="description" content="Free SIP calculator and Lumpsum calculator for Indian mutual funds. Plan your investments, estimate future wealth, and compare returns for SBI, HDFC, and other funds.">
-    <meta name="keywords" content="sip calculator, lumpsum calculator, step up sip calculator, sip calculator india, mutual fund calculator, step up sip calculator, sbi sip calculator, hdfc sip calculator, groww sip calculator, investment planner, wealth creation, lumpsum investment calculator, one time investment calculator, sbi lumpsum calculator, lumpsum vs sip, future value of lumpsum, sip return calculator, power of compounding, rupee cost averaging, lumpsum return calculator, financial planning tools india, sip calculator india, stepup sip calculator, stepup sip calc, what is stepup sip">
+    <meta name="keywords" content="sip calculator, lumpsum calculator, sip calculator india, mutual fund calculator, step up sip calculator, sbi sip calculator, hdfc sip calculator, groww sip calculator, investment planner, wealth creation, lumpsum investment calculator, one time investment calculator, sbi lumpsum calculator, lumpsum vs sip, future value of lumpsum, sip return calculator, power of compounding, rupee cost averaging, lumpsum return calculator, financial planning tools india">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-        <script type='text/javascript' src='//pl27733292.revenuecpmgate.com/f2/cf/5d/f2cf5d0a60e1974880c30613810b97d7.js'></script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MJC3YEXHJD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-MJC3YEXHJD');
-</script>
-<link rel="shortcut icon" href="/favicon-32x32.png">
+    <link rel="shortcut icon" href="/favicon-32x32.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+        /* Define custom colors */
+        :root {
+            --primary-green: #00d984;
+            --primary-turquoise: #00cec9; /* Defining turquoise color */
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
+            overflow-x: hidden; /* Prevent horizontal scroll when menu is open */
         }
 
+        /* --- HEADER STYLES --- */
+        #main-header {
+            background-color: #ffffff;
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .header-content {
+            display: flex;
+            align-items: center;
+        }
+        .menu-icon {
+            color: #1f2937;
+            font-size: 2rem;
+            cursor: pointer;
+            margin-right: 15px;
+            line-height: 1;
+        }
+        .site-logo {
+            height: 35px; 
+            width: auto;
+            margin-right: 10px;
+        }
+        #main-header h1 {
+            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        
+        /* --- SIDE MENU STYLES --- */
+        #side-menu-drawer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px; 
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1000;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.15);
+            transform: translateX(-100%); 
+            transition: transform 0.3s ease-in-out;
+            padding-top: 5rem;
+        }
+        #side-menu-drawer.open {
+            transform: translateX(0); 
+        }
+        .menu-link {
+            display: block;
+            padding: 15px 20px;
+            text-decoration: none;
+            color: #1f2937;
+            font-weight: 600;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background-color 0.2s;
+        }
+        .menu-link:hover {
+            background-color: #e6fffa;
+            color: var(--primary-green);
+        }
+        
+        /* Overlay for when menu is open */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        /* --- CORE THEME STYLES (SIP CALCULATOR & PLAN FINDER) --- */
         .sip-calculator {
             max-width: 900px;
             margin: 2rem auto;
             padding: 1.5rem;
-            background-color: #fff;
+            background-color: #fff; /* White background for both main containers */
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
         }
 
-        /* Renamed from text-groww-green to a neutral class */
         .text-primary-green {
-            color: #00d984;
+            color: var(--primary-green);
+        }
+        
+        /* --- RADIO BUTTON COLOR CHANGE (UPDATED) --- */
+        /* Set radio button color to turquoise */
+        input[type=radio] {
+            accent-color: var(--primary-turquoise); 
         }
 
-        /* Toggle Button Styles for three modes */
+        /* Set the investment plan button color */
+        .bg-primary-turquoise {
+            background-color: var(--primary-turquoise);
+        }
+        .hover\:bg-turquoise-dark:hover {
+            background-color: #00b8b5; /* Slightly darker turquoise for hover */
+        }
+        
+        /* --- TOGGLE BUTTON STYLES (Used on Calculator) --- */
         .toggle-button {
             padding: 0.5rem 1rem;
-            border-radius: 9999px; /* Pill shape */
+            border-radius: 9999px;
             font-weight: 600;
             transition: all 0.2s;
             cursor: pointer;
             white-space: nowrap;
-            /* Added border to ensure alignment */
             border: 1px solid transparent; 
         }
 
         .toggle-button.active {
-            background-color: #00d984;
+            background-color: var(--primary-green);
             color: #1f2937;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
@@ -63,50 +150,73 @@
             background-color: #e5e7eb;
             color: #6b7280;
         }
-        /* End Toggle Button Styles */
 
-        .chart-container {
-            position: relative;
-            height: 250px;
-            width: 250px;
-        }
-
-        /* Custom thumb and track styling for cross-browser consistency */
+        /* Input Styles */
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             height: 20px;
             width: 20px;
             border-radius: 50%;
-            background: #00d984;
+            background: var(--primary-green);
             cursor: pointer;
             margin-top: -8px; 
         }
-
-        input[type=range]::-moz-range-thumb {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #00d984;
+        /* Common Range Slider styling */
+        .range-slider {
+            -webkit-appearance: none;
+            height: 8px; 
+            background: #d1d5db; 
+            border-radius: 4px;
             cursor: pointer;
+            margin-top: 5px; 
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            cursor: pointer;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
+            transition: background 0.15s ease-in-out;
+        }
+        .range-slider::-moz-range-thumb {
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            cursor: pointer;
+            box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2);
         }
 
-        input[type=range]::-ms-thumb {
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            background: #00d984;
-            cursor: pointer;
-        }
-        /* Custom style for the guidance box border */
+
         .guidance-box-border {
-            border-left: 4px solid #00d984;
+            border-left: 4px solid var(--primary-green);
         }
+        /* --- END CORE THEME STYLES --- */
     </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-<div class="sip-calculator">
+<div id="menu-overlay" class="hidden" onclick="toggleMenu()"></div>
+
+<div id="side-menu-drawer">
+    <a href="#" class="menu-link" onclick="showView('calculator'); toggleMenu(); return false;">Home (SIP Calculator)</a>
+    <a href="#" class="menu-link" onclick="showView('planFinder'); toggleMenu(); return false;">Investment Planner</a>
+</div>
+
+
+<header id="main-header">
+    <div class="header-content">
+        <span class="menu-icon" onclick="toggleMenu()">&#8942;</span> 
+        <img src="https://i.imgur.com/gK2Jp5k.png" alt="SIP Calculator Logo" class="site-logo">
+        <h1 id="headerTitle">SIP Calculator</h1>
+    </div>
+</header>
+
+
+<div id="calculatorView" class="sip-calculator">
     <div class="container mx-auto">
         <header class="text-center mb-10">
             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2" id="mainTitle">SIP Calculator: Plan Your Investments and Future Wealth</h1>
@@ -127,7 +237,7 @@
             </div>
         </div>
         <main class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-            <div class="p-6 bg-gray-50 rounded-lg shadow-sm">
+            <div class="p-6 bg-gray-50 rounded-lg shadow-sm"> 
                 <div class="mb-6">
                     <label for="monthlyInvestment" class="block text-gray-800 font-medium mb-1" id="investmentLabel">Monthly Investment (₹)</label>
                     <input type="range" id="monthlyInvestmentSlider" min="500" max="100000" step="500" value="10000"
@@ -141,6 +251,14 @@
                     <input type="range" id="expectedReturnSlider" min="1" max="30" step="0.5" value="12"
                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                     <input type="number" id="expectedReturn" value="12" min="1" max="30" step="0.5"
+                           class="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
+                </div>
+                
+                <div class="mb-6">
+                    <label for="inflationRate" class="block text-gray-800 font-medium mb-1">Avg. Inflation Rate (% p.a.)</label>
+                    <input type="range" id="inflationRateSlider" min="0" max="10" step="0.1" value="6.5"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                    <input type="number" id="inflationRate" value="6.5" min="0" max="10" step="0.1"
                            class="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
                 </div>
 
@@ -176,12 +294,17 @@
                 <div class="relative chart-container mb-6">
                     <canvas id="sipChart"></canvas>
                     <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-                        <p class="text-sm font-medium text-gray-800 mb-1">Total Value</p>
+                        <p class="text-sm font-medium text-gray-800 mb-1">Total Value (Nominal)</p>
                         <p id="totalValue" class="text-xl font-bold text-primary-green">₹0</p>
                     </div>
                 </div>
 
-                <div class="flex justify-center space-x-4 w-full mb-6">
+                <div class="w-full p-4 mt-4 bg-yellow-50 rounded-lg border border-yellow-300 text-center">
+                    <p class="text-sm font-medium text-gray-800">Purchasing Power (Real Value)</p>
+                    <p id="realFutureValue" class="text-lg font-bold text-red-600">₹0</p>
+                </div>
+
+                <div class="flex justify-center space-x-4 w-full mb-6 mt-4">
                     <div class="flex items-center space-x-2">
                         <div class="w-4 h-4 rounded-full bg-gray-200"></div>
                         <span class="text-gray-800" id="investedLegend">Invested Amount</span>
@@ -193,49 +316,113 @@
                 </div>
 
                 <div id="guidanceMessage" class="w-full p-3 bg-gray-100 rounded-md guidance-box-border">
-                    </div>
                 </div>
+            </div>
         </main>
         
         <section class="mt-16 pt-8 border-t border-gray-200" id="seoContent">
             </section>
+    </div>
+</div>
+
+
+<div id="planFinderView" class="sip-calculator hidden">
+    <div class="container mx-auto p-6">
+        <h2 class="text-4xl font-extrabold text-gray-900 mb-4 text-center">Investment Planner 🚀</h2>
+        
+        <div class="mb-8 p-4 bg-green-50 rounded-lg border border-primary-green/50">
+            <p class="text-sm text-gray-700 leading-relaxed font-medium">
+                The Investment Planner is a smart financial planning tool that recommends the right mutual fund category based on your risk tolerance, investment time horizon, and financial goals. It suggests an appropriate asset allocation strategy (Equity, Debt, or Hybrid Funds) to help you efficiently achieve long-term objectives.
+            </p>
         </div>
+        <div class="max-w-md mx-auto p-6 bg-gray-50 rounded-lg shadow-md"> 
+            
+            <div class="mb-6">
+                <label for="plan_monthlyInvestment" class="block text-gray-800 font-medium mb-2">1. Monthly Investment (₹)</label>
+                <input type="number" id="plan_monthlyInvestment" value="5000" min="500" max="100000"
+                       class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
+                <input type="range" id="plan_monthlyInvestmentSlider" min="500" max="100000" step="500" value="5000"
+                       class="w-full range-slider">
+            </div>
+
+            <div class="mb-6">
+                <label for="plan_timePeriod" class="block text-gray-800 font-medium mb-2">2. Time Period (Years)</label>
+                <input type="number" id="plan_timePeriod" value="10" min="1" max="40"
+                       class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
+                <input type="range" id="plan_timePeriodSlider" min="1" max="40" step="1" value="10"
+                       class="w-full range-slider">
+            </div>
+
+            <div class="mb-8">
+                <label class="block text-gray-800 font-medium mb-2">3. Your Risk-Taking Capacity</label>
+                <div class="space-y-3">
+                    <label class="flex items-center p-3 bg-white rounded-md border border-gray-200 cursor-pointer hover:border-primary-green transition">
+                        <input type="radio" name="riskCapacity" value="low" checked>
+                        <span class="ml-3 font-medium text-gray-700">Low Risk</span>
+                        <span class="ml-auto text-sm text-gray-500 hidden sm:inline">(Prefer stability)</span>
+                    </label>
+                    <label class="flex items-center p-3 bg-white rounded-md border border-gray-200 cursor-pointer hover:border-primary-green transition">
+                        <input type="radio" name="riskCapacity" value="medium">
+                        <span class="ml-3 font-medium text-gray-700">Medium Risk</span>
+                        <span class="ml-auto text-sm text-gray-500 hidden sm:inline">(Okay with volatility)</span>
+                    </label>
+                    <label class="flex items-center p-3 bg-white rounded-md border border-gray-200 cursor-pointer hover:border-primary-green transition">
+                        <input type="radio" name="riskCapacity" value="high">
+                        <span class="ml-3 font-medium text-gray-700">High Risk</span>
+                        <span class="ml-auto text-sm text-gray-500 hidden sm:inline">(Seek maximum returns)</span>
+                    </label>
+                </div>
+            </div>
+
+            <button onclick="getInvestmentPlan()" 
+                    class="w-full bg-primary-turquoise text-white font-bold py-3 rounded-lg hover:bg-turquoise-dark transition duration-200 shadow-md">
+                My Investment Plan
+            </button>
+        </div>
+
+        <div id="planRecommendationOutput" class="mt-10 p-6 bg-white rounded-lg border-t-4 border-primary-green shadow-xl hidden">
+            <h3 class="text-2xl font-bold text-gray-900 mb-3" id="planTitle"></h3>
+            <p class="text-gray-700 mb-4" id="planRationale"></p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                <div class="flex flex-col items-center">
+                    <p class="text-lg font-semibold text-gray-800 mb-3">Recommended Asset Allocation</p>
+                    <div class="relative chart-container w-full max-w-xs">
+                        <canvas id="allocationChart"></canvas>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="p-4 bg-gray-100 rounded-lg border border-gray-200 mb-6">
+                        <p class="text-sm font-medium text-gray-800 mb-1">Estimated Overall Return Rate (p.a.):</p>
+                        <p id="overallReturnRate" class="text-2xl font-bold text-primary-green">N/A</p>
+                    </div>
+                    
+                    <p class="text-lg font-semibold text-gray-800 mb-3">Estimated Component Returns</p>
+                    <div id="expectedReturnsTable" class="w-full">
+                        </div>
+
+                    <div class="p-4 bg-yellow-50 rounded-lg border border-yellow-300 text-sm mt-6">
+                        <p class="font-bold">Total Estimated Future Value (Nominal):</p>
+                        <p id="estimatedFutureValue" class="text-xl font-bold text-red-600">₹0</p>
+                    </div>
+
+                    <div class="p-4 bg-red-50 rounded-lg border border-red-300 text-sm mt-4">
+                        <p class="font-bold">Inflation-Adjusted Future Value (Real Value):</p>
+                        <p id="inflationAdjustedFutureValue" class="text-xl font-bold text-red-800">₹0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-6 pt-4 border-t border-gray-100">Disclaimer: This is for guidance only, based on historical averages and assumptions. Consult a financial advisor before investing. **Equity** is split among Large, Mid, and Small Cap based on risk profile.</p>
+        </div>
+    </div>
 </div>
 
 <script>
-    // ELEMENT REFERENCES
-    const monthlyInvestmentInput = document.getElementById('monthlyInvestment');
-    const monthlyInvestmentSlider = document.getElementById('monthlyInvestmentSlider');
-    const expectedReturnInput = document.getElementById('expectedReturn');
-    const expectedReturnSlider = document.getElementById('expectedReturnSlider');
-    const timePeriodInput = document.getElementById('timePeriod');
-    const timePeriodSlider = document.getElementById('timePeriodSlider');
-    
-    // NEW STEP-UP ELEMENTS
-    const stepUpRateGroup = document.getElementById('stepUpRateGroup'); // Container to show/hide
-    const stepUpRateInput = document.getElementById('stepUpRate');
-    const stepUpRateSlider = document.getElementById('stepUpRateSlider');
-
-    const investedAmountEl = document.getElementById('investedAmount');
-    const estimatedReturnsEl = document.getElementById('estimatedReturns');
-    const totalValueEl = document.getElementById('totalValue');
-    const guidanceMessageEl = document.getElementById('guidanceMessage');
-    const investmentLabel = document.getElementById('investmentLabel');
-    const investedLabel = document.getElementById('investedLabel');
-    const investedLegend = document.getElementById('investedLegend');
-    const seoContentEl = document.getElementById('seoContent');
-    const mainTitle = document.getElementById('mainTitle');
-    const mainDescription = document.getElementById('mainDescription');
-    
-    // Toggle Buttons
-    const sipButton = document.getElementById('sipButton');
-    const stepUpSipButton = document.getElementById('stepUpSipButton');
-    const lumpsumButton = document.getElementById('lumpsumButton');
-
-    let sipChart;
-    let currentMode = 'sip'; // Default mode is SIP
-
-    // --- SEO Content Variables ---
+    // --- SEO Content Variables (Your original content) ---
+    // (SEO content definitions remain here for brevity)
     const LUMPSUM_SEO_CONTENT = `
         <h2 class="text-2xl font-extrabold text-gray-900 mb-4">Understanding the Lumpsum Calculator for Indian Investors</h2>
         
@@ -332,38 +519,138 @@
         <h2 class="text-2xl font-extrabold text-gray-900 mb-4">Calculate the Potential of a Step-Up SIP (Top-Up SIP)</h2>
         
         <p class="text-gray-700 mb-4 leading-relaxed">
-            A *Step-Up SIP Calculator* is a highly effective tool for long-term investors in India who wish to increase their savings annually, aligning with their income growth. Also known as a *Top-Up SIP, this strategy significantly boosts your final corpus through higher contributions and the **power of compounding* on an increasing base. Use this calculator to model how a consistent annual increase in your monthly SIP can lead to dramatically larger wealth creation over the long investment horizon.
+            A **Step-Up SIP Calculator** is a highly effective tool for long-term investors in India who wish to increase their savings annually, aligning with their income growth. Also known as a **Top-Up SIP**, this strategy significantly boosts your final corpus through higher contributions and the **power of compounding** on an increasing base. Use this calculator to model how a consistent annual increase in your monthly SIP can lead to dramatically larger wealth creation over the long investment horizon.
         </p>
 
         <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">How the Step-Up SIP is Calculated (Iterative Method)</h3>
         <p class="text-gray-700 mb-3">
-            Since the investment amount changes every 12 months, there is no simple closed-form formula. The Step-Up SIP maturity amount is calculated by determining the future value of each annual contribution block and summing them up.
+            Since the investment amount changes every 12 months, there is no simple closed-form formula. The Step-Up SIP maturity amount is calculated by determining the future value of *each annual contribution block* and summing them up.
         </p>
         
         <div class="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4">
             <h4 class="font-semibold text-gray-800 mb-2">Calculation Logic:</h4>
             <code class="text-sm font-mono text-gray-700 block whitespace-pre-wrap">
-1.  *Iterative Process:* Repeat for each year (y) of the investment period.
-2.  *Annual SIP Calculation:* Use the standard SIP formula to find the Future Value of the 12 investments made in year (y) at the prevailing investment amount (P_y).
+1.  **Iterative Process:** Repeat for each year (y) of the investment period.
+2.  **Annual SIP Calculation:** Use the standard SIP formula to find the Future Value of the 12 investments made in year (y) at the prevailing investment amount (P_y).
     * FV_y = P_y &times; [((1 + i)¹² - 1) / i] &times; (1 + i)
-3.  *Compounding to Maturity:* Compound this annual FV_y for the remaining time (T - y) until the end of the full tenure (T).
+3.  **Compounding to Maturity:** Compound this annual FV_y for the remaining time (T - y) until the end of the full tenure (T).
     * Total Value += FV_y &times; (1 + i)¹²&times;(T-y)
-4.  *Step-Up:* Increase the SIP amount for the next year (P_y+1):
+4.  **Step-Up:** Increase the SIP amount for the next year (P_y+1):
     * P_y+1 = P_y &times; (1 + Step-Up Rate)
 
-*Invested Amount* is simply the sum of all monthly payments made (P_y &times; 12) across all years.
+**Invested Amount** is simply the sum of all monthly payments made (P_y &times; 12) across all years.
             </code>
         </div>
         <p class="text-sm text-gray-600 mt-3">
-            Where **i* is the monthly rate of return (Annual Rate / 12 / 100). This process accounts for compounding accurately on both the annual increase and the remaining investment duration.
+            *Where **i** is the monthly rate of return (Annual Rate / 12 / 100). This process accounts for compounding accurately on both the annual increase and the remaining investment duration.
         </p>
 
         <h3 class="text-xl font-bold text-gray-800 mt-6 mb-3">Why is a Step-Up SIP Powerful for Wealth Creation?</h3>
         <p class="text-gray-700 leading-relaxed">
-            Unlike a fixed SIP, the *Step-Up SIP* allows your investments to grow dynamically. As your salary or income rises, so does your investment amount, which is crucial for *long-term financial planning* and hitting ambitious goals like retirement or a child's education. Even a modest 5% annual step-up rate can result in a corpus that is substantially larger than a fixed SIP over 15-20 years.
+            Unlike a fixed SIP, the **Step-Up SIP** allows your investments to grow dynamically. As your salary or income rises, so does your investment amount, which is crucial for **long-term financial planning** and hitting ambitious goals like retirement or a child's education. Even a modest 5% annual step-up rate can result in a corpus that is substantially larger than a fixed SIP over 15-20 years.
         </p>
     `;
-    // --- End of SEO Content Variables ---
+
+    // --- NEW ASSET ALLOCATION AND RETURN CONSTANTS (UPDATED) ---
+    const ASSET_ALLOCATIONS = {
+        'low': {
+            'Debt': 60, 
+            'Equity': 30, 
+            'Gold & Silver': 10
+        },
+        'medium': {
+            'Debt': 30, 
+            'Equity': 60, 
+            'Gold & Silver': 10
+        },
+        'high': {
+            'Debt': 10, 
+            'Equity': 85, 
+            'Gold & Silver': 5
+        },
+        'short_term': { // For goals < 3 years
+            'Debt': 90, 
+            'Cash & Equivalents': 10 
+        }
+    };
+
+    const ASSET_RETURNS = {
+        'Debt': 7.0,          // Avg. Debt Fund return
+        'Gold & Silver': 8.0, // Avg. Gold/Silver return
+        'Cash & Equivalents': 6.0,
+        // Detailed Equity Splits (Corrected as per user request)
+        'Large Cap Equity': 12.0,
+        'Mid Cap Equity': 14.0,
+        'Small Cap Equity': 16.0
+    };
+
+    const EQUITY_SPLITS = {
+        'low': { 'Large Cap Equity': 60, 'Mid Cap Equity': 30, 'Small Cap Equity': 10 },
+        'medium': { 'Large Cap Equity': 40, 'Mid Cap Equity': 40, 'Small Cap Equity': 20 },
+        'high': { 'Large Cap Equity': 25, 'Mid Cap Equity': 35, 'Small Cap Equity': 40 }
+    };
+    
+    let allocationChart; 
+
+
+    // ELEMENT REFERENCES 
+    const monthlyInvestmentInput = document.getElementById('monthlyInvestment');
+    const monthlyInvestmentSlider = document.getElementById('monthlyInvestmentSlider');
+    const expectedReturnInput = document.getElementById('expectedReturn');
+    const expectedReturnSlider = document.getElementById('expectedReturnSlider');
+    const timePeriodInput = document.getElementById('timePeriod');
+    const timePeriodSlider = document.getElementById('timePeriodSlider');
+    
+    // NEW INFLATION ELEMENTS
+    const inflationRateInput = document.getElementById('inflationRate');
+    const inflationRateSlider = document.getElementById('inflationRateSlider');
+    const realFutureValueEl = document.getElementById('realFutureValue');
+
+    // NEW STEP-UP ELEMENTS
+    const stepUpRateGroup = document.getElementById('stepUpRateGroup');
+    const stepUpRateInput = document.getElementById('stepUpRate');
+    const stepUpRateSlider = document.getElementById('stepUpRateSlider');
+
+    const investedAmountEl = document.getElementById('investedAmount');
+    const estimatedReturnsEl = document.getElementById('estimatedReturns');
+    const totalValueEl = document.getElementById('totalValue');
+    const guidanceMessageEl = document.getElementById('guidanceMessage');
+    const investmentLabel = document.getElementById('investmentLabel');
+    const investedLabel = document.getElementById('investedLabel');
+    const investedLegend = document.getElementById('investedLegend');
+    const seoContentEl = document.getElementById('seoContent');
+    const mainTitle = document.getElementById('mainTitle');
+    const mainDescription = document.getElementById('mainDescription');
+    const headerTitle = document.getElementById('headerTitle');
+    
+    // Toggle Buttons
+    const sipButton = document.getElementById('sipButton');
+    const stepUpSipButton = document.getElementById('stepUpSipButton');
+    const lumpsumButton = document.getElementById('lumpsumButton');
+
+    // VIEW MANAGEMENT ELEMENTS
+    const calculatorView = document.getElementById('calculatorView');
+    const planFinderView = document.getElementById('planFinderView');
+    
+    // SIDE MENU ELEMENTS
+    const sideMenuDrawer = document.getElementById('side-menu-drawer');
+    const menuOverlay = document.getElementById('menu-overlay');
+
+    // INVESTMENT PLAN FINDER ELEMENTS 
+    const planMonthlyInvestmentInput = document.getElementById('plan_monthlyInvestment');
+    const planMonthlyInvestmentSlider = document.getElementById('plan_monthlyInvestmentSlider'); 
+    const planTimePeriodInput = document.getElementById('plan_timePeriod');
+    const planTimePeriodSlider = document.getElementById('plan_timePeriodSlider'); 
+    const planRecommendationOutput = document.getElementById('planRecommendationOutput');
+    const planTitleEl = document.getElementById('planTitle');
+    const planRationaleEl = document.getElementById('planRationale');
+    const overallReturnRateEl = document.getElementById('overallReturnRate'); 
+    const expectedReturnsTableEl = document.getElementById('expectedReturnsTable'); 
+    const estimatedFutureValueEl = document.getElementById('estimatedFutureValue'); 
+    const inflationAdjustedFutureValueEl = document.getElementById('inflationAdjustedFutureValue'); 
+    
+    let sipChart;
+    let currentMode = 'sip'; // Default mode is SIP
 
 
     const createChart = (investedAmount, estimatedReturns) => {
@@ -446,18 +733,22 @@
         `;
     };
 
-    // Central Calculation Function
+    // Central Calculation Function 
     const calculateInvestment = () => {
         const principal = parseFloat(monthlyInvestmentInput.value);
         const expectedReturn = parseFloat(expectedReturnInput.value) / 100;
         const timePeriod = parseFloat(timePeriodInput.value);
         const expectedReturnPercent = parseFloat(expectedReturnInput.value); 
         const stepUpRate = parseFloat(stepUpRateInput.value) / 100;
+        
+        // Use the rate from the input field, which defaults to 6.5
+        const annualInflationRate = parseFloat(inflationRateInput.value) / 100; 
 
         if (isNaN(principal) || isNaN(expectedReturn) || isNaN(timePeriod) || principal <= 0 || timePeriod <= 0) {
             investedAmountEl.textContent = formatCurrency(0);
             estimatedReturnsEl.textContent = formatCurrency(0);
             totalValueEl.textContent = formatCurrency(0);
+            realFutureValueEl.textContent = formatCurrency(0);
             createChart(0, 0);
             displayGuidance(expectedReturnPercent);
             return;
@@ -479,12 +770,12 @@
             const monthlyReturnRate = expectedReturn / 12;
             const totalMonths = timePeriod * 12;
 
-            investedAmount = principal; // The one-time investment
+            investedAmount = principal;
             futureValue = investedAmount * Math.pow(1 + monthlyReturnRate, totalMonths);
             estimatedReturns = futureValue - investedAmount;
 
         } else if (currentMode === 'stepUpSip') {
-            // CORRECTED STEP-UP SIP CALCULATION (Iterative)
+            // STEP-UP SIP CALCULATION (Iterative)
             const monthlyReturnRate = expectedReturn / 12;
             const totalMonths = Math.round(timePeriod * 12);
             const totalYears = Math.floor(timePeriod);
@@ -495,27 +786,16 @@
             let currentInvestment = principal;
 
             for (let year = 1; year <= totalYears; year++) {
-                // Calculate the Future Value of the 12 SIP payments made this year
                 const fvOfCurrentYearSIP = currentInvestment * (Math.pow(1 + monthlyReturnRate, 12) - 1) / monthlyReturnRate * (1 + monthlyReturnRate);
-                
-                // Calculate remaining months for compounding
                 const remainingMonths = totalMonths - (year * 12);
                 
-                // Add the compounded value of this year's SIP to the total corpus
                 totalValue += fvOfCurrentYearSIP * Math.pow(1 + monthlyReturnRate, remainingMonths);
-
-                // Update total invested
                 totalInvested += currentInvestment * 12;
-
-                // Step-up investment for the next year
                 currentInvestment *= (1 + stepUpRate);
             }
 
-            // Handle any remaining partial year (less than 12 months)
             if (partialMonths > 0) {
-                // Future Value of Annuity Due for the remaining months
                 const fvOfPartialSIP = currentInvestment * (Math.pow(1 + monthlyReturnRate, partialMonths) - 1) / monthlyReturnRate * (1 + monthlyReturnRate);
-                
                 totalValue += fvOfPartialSIP;
                 totalInvested += currentInvestment * partialMonths;
             }
@@ -525,15 +805,20 @@
             estimatedReturns = futureValue - investedAmount;
         }
 
+        // --- INFLATION-ADJUSTED CALCULATION ---
+        const realFutureValue = futureValue / Math.pow((1 + annualInflationRate), timePeriod);
+
+        // --- DISPLAY RESULTS ---
         investedAmountEl.textContent = formatCurrency(investedAmount);
         estimatedReturnsEl.textContent = formatCurrency(estimatedReturns);
         totalValueEl.textContent = formatCurrency(futureValue);
+        realFutureValueEl.textContent = formatCurrency(realFutureValue);
 
         createChart(investedAmount, estimatedReturns);
         displayGuidance(expectedReturnPercent);
     };
 
-    // Mode Switching Logic
+    // Mode Switching Logic 
     const setMode = (mode) => {
         currentMode = mode;
         
@@ -546,12 +831,12 @@
         lumpsumButton.classList.add('passive');
 
         stepUpRateGroup.classList.add('hidden');
-
+        
         // Default SIP ranges
         monthlyInvestmentSlider.min = 500;
         monthlyInvestmentSlider.max = 100000;
         monthlyInvestmentSlider.step = 500;
-
+        
         // Activate the selected button
         document.getElementById(`${mode}Button`).classList.remove('passive');
         document.getElementById(`${mode}Button`).classList.add('active');
@@ -562,23 +847,20 @@
             investmentLabel.textContent = 'Monthly Investment (₹)';
             investedLabel.textContent = 'Total Invested';
             investedLegend.textContent = 'Invested Amount';
-
-            // Set a sensible default SIP value if the current value is out of bounds
+            
             if (monthlyInvestmentInput.value > 100000 || monthlyInvestmentInput.value < 500) {
                 monthlyInvestmentInput.value = 10000;
             }
 
             if (mode === 'stepUpSip') {
-                // Step-Up SIP specific handling
-                stepUpRateGroup.classList.remove('hidden'); // Show Step-Up Rate
+                stepUpRateGroup.classList.remove('hidden');
                 seoContentEl.innerHTML = STEP_UP_SIP_SEO_CONTENT;
                 mainTitle.textContent = "Step-Up SIP Calculator: Maximize Wealth with Annual Investment Increases";
-                mainDescription.innerHTML = `Calculate your potential corpus using a <strong>Step-Up SIP</strong> (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.`;
+                mainDescription.innerHTML = `Calculate your potential corpus using a **Step-Up SIP** (Top-Up SIP) strategy. Estimate the impact of annual investment increases on your long-term wealth creation.`;
             } else {
-                // Standard SIP handling (renamed from Standard SIP to SIP)
                 seoContentEl.innerHTML = SIP_SEO_CONTENT;
                 mainTitle.textContent = "SIP Calculator: Plan Your Investments and Future Wealth";
-                mainDescription.innerHTML = `Calculate the potential returns of your <strong>Systematic Investment Plan (SIP)</strong> in India. Use our <strong>mutual fund sip calculator</strong> to estimate wealth growth and make smarter investment decisions.`;
+                mainDescription.innerHTML = `Calculate the potential returns of your **Systematic Investment Plan (SIP)** in India. Use our **mutual fund sip calculator** to estimate wealth growth and make smarter investment decisions.`;
             }
 
         } else if (mode === 'lumpsum') {
@@ -598,60 +880,269 @@
             // Update SEO Content
             seoContentEl.innerHTML = LUMPSUM_SEO_CONTENT;
             mainTitle.textContent = "Lumpsum Calculator: Estimate Your One-Time Investment Returns";
-            mainDescription.innerHTML = `Estimate the future value of a <strong>one-time lumpsum investment</strong> in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in <strong>India</strong>.`;
+            mainDescription.innerHTML = `Estimate the future value of a **one-time lumpsum investment** in mutual funds. This tool helps you understand the power of compounding for long-term wealth creation in **India**.`;
         }
-
+        
         // --- 4. Synchronize and Calculate ---
         monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
         calculateInvestment();
     };
 
-    // --- EVENT LISTENERS ---
+    // --- SIDE MENU LOGIC ---
+    const toggleMenu = () => {
+        sideMenuDrawer.classList.toggle('open');
+        menuOverlay.classList.toggle('hidden');
+    };
 
-    monthlyInvestmentInput.addEventListener('input', () => {
-        monthlyInvestmentSlider.value = monthlyInvestmentInput.value;
-        calculateInvestment();
-    });
-
-    monthlyInvestmentSlider.addEventListener('input', () => {
-        monthlyInvestmentInput.value = monthlyInvestmentSlider.value;
-        calculateInvestment();
-    });
-
-    expectedReturnInput.addEventListener('input', () => {
-        expectedReturnSlider.value = expectedReturnInput.value;
-        calculateInvestment();
-    });
-
-    expectedReturnSlider.addEventListener('input', () => {
-        expectedReturnInput.value = expectedReturnSlider.value;
-        calculateInvestment();
-    });
-
-    timePeriodInput.addEventListener('input', () => {
-        timePeriodSlider.value = timePeriodInput.value;
-        calculateInvestment();
-    });
-
-    timePeriodSlider.addEventListener('input', () => {
-        timePeriodInput.value = timePeriodSlider.value;
-        calculateInvestment();
-    });
+    const showView = (view) => {
+        if (view === 'calculator') {
+            calculatorView.classList.remove('hidden');
+            planFinderView.classList.add('hidden');
+            headerTitle.textContent = "SIP Calculator";
+            // Ensure SEO content and mode are correct when returning to home
+            setMode(currentMode); // Recalculate using the last active mode
+        } else if (view === 'planFinder') {
+            calculatorView.classList.add('hidden');
+            planFinderView.classList.remove('hidden');
+            // Hide output when switching views, user must click 'My Investment Plan'
+            planRecommendationOutput.classList.add('hidden'); 
+            headerTitle.textContent = "Investment Planner";
+        }
+    };
     
-    // LISTENERS for Step-Up Rate
-    stepUpRateInput.addEventListener('input', () => {
-        stepUpRateSlider.value = stepUpRateInput.value;
-        calculateInvestment();
-    });
+    // --- NEW CHART FUNCTION ---
+    const createRecommendationChart = (data) => {
+        const ctx = document.getElementById('allocationChart').getContext('2d');
+        if (allocationChart) {
+            allocationChart.destroy();
+        }
+        
+        const labels = data.map(item => `${item.name} (${item.allocation.toFixed(0)}%)`);
+        const chartData = data.map(item => item.allocation);
+        const colors = ['#00cec9', '#00d984', '#6a5acd', '#ff7f50', '#ffc048', '#87ceeb']; // Turquoise, Green, Slate Blue, Coral, Yellow, Sky Blue
 
-    stepUpRateSlider.addEventListener('input', () => {
-        stepUpRateInput.value = stepUpRateSlider.value;
-        calculateInvestment();
-    });
+        allocationChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: chartData,
+                    backgroundColor: colors.slice(0, data.length),
+                    hoverOffset: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += new Intl.NumberFormat('en-IN').format(context.parsed) + '%';
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+
+    // --- NEW RETURNS TABLE FUNCTION (UPDATED FOR INFLATION ADJUSTED VALUE) ---
+    const displayExpectedReturns = (allocationDetails, overallReturn, monthlyInvestment, timePeriod) => {
+        let tableHTML = `
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Asset Class</th>
+                        <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Allocation (%)</th>
+                        <th class="px-3 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Est. Return (% p.a.)</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+        `;
+        
+        // Populate table rows
+        allocationDetails.forEach(item => {
+            if (item.allocation > 0) {
+                tableHTML += `
+                    <tr>
+                        <td class="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900">${item.name}</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-800 text-right">${item.allocation.toFixed(0)}%</td>
+                        <td class="px-3 py-2 whitespace-nowrap text-sm font-bold text-primary-green text-right">${item.returnRate.toFixed(1)}%</td>
+                    </tr>
+                `;
+            }
+        });
+
+        tableHTML += `
+                </tbody>
+            </table>
+        `;
+        
+        expectedReturnsTableEl.innerHTML = tableHTML;
+        overallReturnRateEl.textContent = `${overallReturn.toFixed(2)}%`;
+
+        // Calculate Estimated Future Value (Nominal)
+        const monthlyReturnRate = overallReturn / 100 / 12;
+        const totalMonths = timePeriod * 12;
+
+        let futureValue;
+        // Simple SIP calculation, assuming the monthly investment is invested according to the calculated weighted average return.
+        futureValue = monthlyInvestment * (Math.pow(1 + monthlyReturnRate, totalMonths) - 1) / monthlyReturnRate * (1 + monthlyReturnRate);
+
+        estimatedFutureValueEl.textContent = formatCurrency(futureValue);
+
+        // Calculate Inflation-Adjusted Future Value (Real Value) using 6.5% inflation
+        const annualInflationRate = 0.065;
+        const inflationAdjustedFutureValue = futureValue / Math.pow((1 + annualInflationRate), timePeriod);
+        
+        inflationAdjustedFutureValueEl.textContent = formatCurrency(inflationAdjustedFutureValue);
+    };
+
+    // --- INVESTMENT PLAN FINDER FUNCTION ---
+    const getInvestmentPlan = () => {
+        // Ensure inputs are synced before reading them
+        planMonthlyInvestmentSlider.value = planMonthlyInvestmentInput.value;
+        planTimePeriodSlider.value = planTimePeriodInput.value;
+        
+        const monthlyInvestment = parseFloat(planMonthlyInvestmentInput.value);
+        const timePeriod = parseFloat(planTimePeriodInput.value);
+        const riskCapacity = document.querySelector('input[name="riskCapacity"]:checked').value;
+        
+        // 1. Basic Validation
+        if (isNaN(monthlyInvestment) || isNaN(timePeriod) || monthlyInvestment < 500 || timePeriod < 1) {
+            planTitleEl.textContent = "Input Error";
+            planRationaleEl.textContent = "Please enter valid values for your Monthly Investment (min ₹500) and Time Period (min 1 year).";
+            overallReturnRateEl.textContent = "N/A";
+            expectedReturnsTableEl.innerHTML = "";
+            estimatedFutureValueEl.textContent = "₹0";
+            inflationAdjustedFutureValueEl.textContent = "₹0"; 
+            planRecommendationOutput.classList.remove('hidden');
+            return;
+        }
+
+        let allocationProfile;
+        let title, rationale;
+
+        // 2. Determine Allocation Strategy based on Time and Risk
+        if (timePeriod < 3) {
+            // Short-term: Default to high Debt/Cash regardless of stated risk
+            allocationProfile = ASSET_ALLOCATIONS['short_term'];
+            title = "Short-Term Goal: High Safety Required 🛡️";
+            rationale = "Your goal is less than 3 years away. Equity market volatility is too high for this horizon. We recommend prioritizing the safety and liquidity of your capital with low-risk assets.";
+        } else {
+            // Medium/Long-term: Use risk capacity
+            allocationProfile = ASSET_ALLOCATIONS[riskCapacity];
+            const equitySplit = EQUITY_SPLITS[riskCapacity];
+            
+            if (timePeriod >= 3 && timePeriod <= 7) {
+                title = riskCapacity === 'low' ? "Medium-Term Goal: Conservative Hybrid Plan" : "Medium-Term Goal: Balanced Growth Plan";
+                rationale = "With 3-7 years, a hybrid strategy is optimal, balancing growth from equity with stability from debt to manage short-term market fluctuations.";
+            } else { // timePeriod > 7 years
+                title = riskCapacity === 'high' ? "Long-Term Goal: Aggressive Equity Growth 🚀" : "Long-Term Goal: Core Wealth Creation Plan";
+                rationale = "Your long time period allows you to harness the full power of equity compounding. A higher equity allocation is recommended to maximize returns over the long run.";
+            }
+
+            // Sub-allocate Equity into Large, Mid, and Small Cap for the chart/table
+            const totalEquity = allocationProfile['Equity'];
+            
+            // Remove 'Equity' key and add sub-categories
+            delete allocationProfile['Equity'];
+            allocationProfile['Large Cap Equity'] = totalEquity * equitySplit['Large Cap Equity'] / 100;
+            allocationProfile['Mid Cap Equity'] = totalEquity * equitySplit['Mid Cap Equity'] / 100;
+            allocationProfile['Small Cap Equity'] = totalEquity * equitySplit['Small Cap Equity'] / 100;
+        }
+        
+        // 3. Calculate Weighted Average Return and prepare data for display
+        let overallReturn = 0;
+        let allocationDetails = [];
+
+        // Combine the detailed equity components and other assets
+        const components = [
+            'Large Cap Equity', 'Mid Cap Equity', 'Small Cap Equity', 
+            'Debt', 'Gold & Silver', 'Cash & Equivalents'
+        ];
+        
+        for (const assetName of components) {
+            const allocation = allocationProfile[assetName] || 0; 
+            if (allocation > 0) {
+                const returnRate = ASSET_RETURNS[assetName] || 0; 
+                overallReturn += (allocation / 100) * returnRate;
+                
+                allocationDetails.push({
+                    name: assetName,
+                    allocation: allocation,
+                    returnRate: returnRate
+                });
+            }
+        }
+        
+        // 4. Update HTML Elements
+        planTitleEl.textContent = title;
+        planRationaleEl.textContent = rationale;
+        planRecommendationOutput.classList.remove('hidden');
+
+        // Sort by allocation percentage for consistent chart display (optional)
+        allocationDetails.sort((a, b) => b.allocation - a.allocation);
+        
+        // 5. Generate Chart and Table
+        createRecommendationChart(allocationDetails);
+        displayExpectedReturns(allocationDetails, overallReturn, monthlyInvestment, timePeriod);
+    };
+
+    // --- EVENT LISTENERS (Corrected for better synchronization) ---
+
+    const syncSlider = (slider, input, callback) => {
+        slider.addEventListener('input', () => {
+            input.value = slider.value;
+            if (callback) callback();
+        });
+        input.addEventListener('input', () => {
+            slider.value = input.value;
+            if (callback) callback();
+        });
+    };
+    
+    // Planner input change listener
+    const handlePlanInputChange = () => {
+        // If the recommendation output is visible, automatically recalculate on input change
+        if (!planRecommendationOutput.classList.contains('hidden')) {
+            getInvestmentPlan();
+        }
+    };
+
+    const addCalculatorListeners = () => {
+        // Main Calculator inputs (all trigger calculation)
+        syncSlider(monthlyInvestmentSlider, monthlyInvestmentInput, calculateInvestment);
+        syncSlider(expectedReturnSlider, expectedReturnInput, calculateInvestment);
+        syncSlider(timePeriodSlider, timePeriodInput, calculateInvestment);
+        syncSlider(inflationRateSlider, inflationRateInput, calculateInvestment);
+        syncSlider(stepUpRateSlider, stepUpRateInput, calculateInvestment);
+
+        // Investment Planner inputs (trigger sync and optional calculation)
+        syncSlider(planMonthlyInvestmentSlider, planMonthlyInvestmentInput, handlePlanInputChange);
+        syncSlider(planTimePeriodSlider, planTimePeriodInput, handlePlanInputChange);
+
+        // Risk radio buttons should also trigger calculation if the output is visible
+        document.querySelectorAll('input[name="riskCapacity"]').forEach(radio => {
+            radio.addEventListener('change', handlePlanInputChange);
+        });
+    };
+
 
     // Initial setup
     window.onload = () => {
-        // Force the default mode (Standard SIP) to set initial state and content
+        addCalculatorListeners();
+        // Manually set initial inflation rate to 6.5% for the calculator UI and ensure it calculates
+        inflationRateInput.value = 6.5;
+        inflationRateSlider.value = 6.5;
         setMode('sip');
     };
 
