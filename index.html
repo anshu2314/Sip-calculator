@@ -334,29 +334,38 @@
     <div class="container mx-auto p-6">
         <h2 class="text-4xl font-extrabold text-gray-900 mb-4 text-center">Investment Planner 🚀</h2>
         
-        <div class="mb-8 p-4 bg-green-50 rounded-lg border border-primary-green/50">
-            <p class="text-sm text-gray-700 leading-relaxed font-medium">
+        <div class="mb-8 p-4">
+            <p class="text-base text-gray-700 leading-relaxed font-medium">
                 The Investment Planner is a smart financial planning tool that recommends the right mutual fund category based on your risk tolerance, investment time horizon, and financial goals. It suggests an appropriate asset allocation strategy (Equity, Debt, or Hybrid Funds) to help you efficiently achieve long-term objectives.
             </p>
         </div>
-        <div class="max-w-md mx-auto p-6 bg-gray-50 rounded-lg shadow-md"> 
+        
+        <div class="max-w-xl mx-auto p-6 bg-gray-50 rounded-lg shadow-md"> 
             
             <div class="mb-6">
                 <label for="plan_monthlyInvestment" class="block text-gray-800 font-medium mb-2">1. Monthly Investment (₹)</label>
+                <input type="range" id="plan_monthlyInvestmentSlider" min="500" max="100000" step="500" value="5000"
+                       class="w-full range-slider mb-2"> 
                 <input type="number" id="plan_monthlyInvestment" value="5000" min="500" max="100000"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
-                <input type="range" id="plan_monthlyInvestmentSlider" min="500" max="100000" step="500" value="5000"
-                       class="w-full range-slider">
             </div>
 
             <div class="mb-6">
                 <label for="plan_timePeriod" class="block text-gray-800 font-medium mb-2">2. Time Period (Years)</label>
+                <input type="range" id="plan_timePeriodSlider" min="1" max="40" step="1" value="10"
+                       class="w-full range-slider mb-2">
                 <input type="number" id="plan_timePeriod" value="10" min="1" max="40"
                        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
-                <input type="range" id="plan_timePeriodSlider" min="1" max="40" step="1" value="10"
-                       class="w-full range-slider">
             </div>
 
+            <div class="mb-6">
+                <label for="plan_inflationRate" class="block text-gray-800 font-medium mb-2">Inflation Rate (% p.a.)</label>
+                <input type="range" id="plan_inflationRateSlider" min="0" max="10" step="0.1" value="6.5"
+                       class="w-full range-slider mb-2">
+                <input type="number" id="plan_inflationRate" value="6.5" min="0" max="10" step="0.1"
+                       class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green text-right font-semibold text-gray-900">
+            </div>
+            
             <div class="mb-8">
                 <label class="block text-gray-800 font-medium mb-2">3. Your Risk-Taking Capacity</label>
                 <div class="space-y-3">
@@ -645,6 +654,10 @@
     const planMonthlyInvestmentSlider = document.getElementById('plan_monthlyInvestmentSlider'); 
     const planTimePeriodInput = document.getElementById('plan_timePeriod');
     const planTimePeriodSlider = document.getElementById('plan_timePeriodSlider'); 
+    // ADDED: PLANNER INFLATION ELEMENTS
+    const planInflationRateInput = document.getElementById('plan_inflationRate');
+    const planInflationRateSlider = document.getElementById('plan_inflationRateSlider');
+    
     const planRecommendationOutput = document.getElementById('planRecommendationOutput');
     const planTitleEl = document.getElementById('planTitle');
     const planRationaleEl = document.getElementById('planRationale');
@@ -1003,8 +1016,9 @@
 
         estimatedFutureValueEl.textContent = formatCurrency(futureValue);
 
-        // Calculate Inflation-Adjusted Future Value (Real Value) using 6.5% inflation
-        const annualInflationRate = 0.065;
+        // Calculate Inflation-Adjusted Future Value (Real Value) 
+        // NOW USES THE INPUT VALUE FROM THE PLANNER
+        const annualInflationRate = parseFloat(planInflationRateInput.value) / 100;
         const inflationAdjustedFutureValue = futureValue / Math.pow((1 + annualInflationRate), timePeriod);
         
         inflationAdjustedFutureValueEl.textContent = formatCurrency(inflationAdjustedFutureValue);
@@ -1015,6 +1029,7 @@
         // Ensure inputs are synced before reading them
         planMonthlyInvestmentSlider.value = planMonthlyInvestmentInput.value;
         planTimePeriodSlider.value = planTimePeriodInput.value;
+        planInflationRateSlider.value = planInflationRateInput.value; // Sync new inflation input
         
         const monthlyInvestment = parseFloat(planMonthlyInvestmentInput.value);
         const timePeriod = parseFloat(planTimePeriodInput.value);
@@ -1136,6 +1151,8 @@
         // Investment Planner inputs (trigger sync and optional calculation)
         syncSlider(planMonthlyInvestmentSlider, planMonthlyInvestmentInput, handlePlanInputChange);
         syncSlider(planTimePeriodSlider, planTimePeriodInput, handlePlanInputChange);
+        // ADDED: Sync for Planner Inflation Input
+        syncSlider(planInflationRateSlider, planInflationRateInput, handlePlanInputChange);
 
         // Risk radio buttons should also trigger calculation if the output is visible
         document.querySelectorAll('input[name="riskCapacity"]').forEach(radio => {
